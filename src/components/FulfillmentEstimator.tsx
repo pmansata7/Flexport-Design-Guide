@@ -5,6 +5,10 @@ import {
   TrendingUpIcon,
   CheckCircleIcon } from
 'lucide-react';
+import {
+  calculateFulfillmentEstimate,
+  FulfillmentEstimateInput } from
+'../utils/calculators';
 interface EstimatorData {
   dailyOrders: string;
   skuCount: string;
@@ -59,26 +63,16 @@ export function FulfillmentEstimator({
     }));
   };
   const calculateEstimate = () => {
-    const dailyOrders = parseInt(formData.dailyOrders) || 0;
-    const skuCount = parseInt(formData.skuCount) || 0;
-    // Simple estimation logic (would be replaced with actual API call)
-    const basePerOrder = 8.5;
-    const storageFactor = skuCount * 0.5;
-    const monthlyOrders = dailyOrders * 30;
-    const estimatedMonthlySpend = monthlyOrders * basePerOrder + storageFactor;
-    const confidence =
-    formData.channels.length > 0 && formData.inboundMethod ?
-    'high' :
-    formData.dailyOrders && formData.skuCount ?
-    'medium' :
-    'low';
-    const minimumSpend = 2500;
-    return {
-      estimatedMonthlySpend: Math.round(estimatedMonthlySpend),
-      confidence,
-      meetsMinimum: estimatedMonthlySpend >= minimumSpend,
-      minimumSpend
+    const estimateInput: FulfillmentEstimateInput = {
+      dailyOrders: parseInt(formData.dailyOrders) || 0,
+      skuCount: parseInt(formData.skuCount) || 0,
+      storageNeeds: formData.storageNeeds as any || 'medium',
+      channels: formData.channels,
+      inboundMethod: formData.inboundMethod,
+      averageItemsPerOrder: 1.5,
+      hasFragileItems: false // Could add this as a form field
     };
+    return calculateFulfillmentEstimate(estimateInput);
   };
   const handleCalculate = () => {
     const estimate = calculateEstimate();

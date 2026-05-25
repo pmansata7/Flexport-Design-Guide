@@ -6,8 +6,10 @@ import { MarketplaceIntegration } from './components/MarketplaceIntegration';
 import { BillingConsent } from './components/BillingConsent';
 import { AccountCreation } from './components/AccountCreation';
 import { Dashboard } from './components/Dashboard';
+import { CalculatorsPage } from './components/CalculatorsPage';
 type Step =
 'homepage' |
+'calculators' |
 'qualification' |
 'estimator' |
 'integration' |
@@ -52,8 +54,13 @@ export function App() {
   return (
     <div className="min-h-screen">
       {currentStep === 'homepage' &&
-      <NewHomepage onGetStarted={handleGetStarted} />
+      <NewHomepage
+        onGetStarted={handleGetStarted}
+        onNavigateToCalculators={() => setCurrentStep('calculators')} />
+
       }
+
+      {currentStep === 'calculators' && <CalculatorsPage />}
 
       {currentStep === 'qualification' &&
       <QualificationGate onComplete={handleQualificationComplete} />

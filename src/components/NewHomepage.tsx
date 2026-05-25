@@ -2,8 +2,12 @@ import React from 'react';
 import { ArrowRightIcon, CheckCircleIcon } from 'lucide-react';
 interface NewHomepageProps {
   onGetStarted: () => void;
+  onNavigateToCalculators?: () => void;
 }
-export function NewHomepage({ onGetStarted }: NewHomepageProps) {
+export function NewHomepage({
+  onGetStarted,
+  onNavigateToCalculators
+}: NewHomepageProps) {
   const personas = [
   {
     title: 'Ecommerce & Omnichannel Brands',
@@ -76,6 +80,12 @@ export function NewHomepage({ onGetStarted }: NewHomepageProps) {
             <div className="hidden md:flex items-center gap-6">
               <button className="text-white text-base font-medium hover:opacity-80 transition-opacity">
                 Solutions
+              </button>
+              <button
+                onClick={onNavigateToCalculators}
+                className="text-white text-base font-medium hover:opacity-80 transition-opacity">
+                
+                Calculators
               </button>
               <button className="text-white text-base font-medium hover:opacity-80 transition-opacity">
                 Resources
