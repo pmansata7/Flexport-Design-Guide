@@ -1,12 +1,18 @@
-import React from 'react';
+import React, { useState } from 'react';
 import {
   PackageIcon,
   TrendingUpIcon,
   AlertCircleIcon,
   CheckCircleIcon,
-  ClockIcon } from
+  ClockIcon,
+  ChevronDownIcon } from
 'lucide-react';
 export function Dashboard() {
+  const [servicesDropdownOpen, setServicesDropdownOpen] = useState(false);
+  const [companyDropdownOpen, setCompanyDropdownOpen] = useState(false);
+  const [resourcesDropdownOpen, setResourcesDropdownOpen] = useState(false);
+  const [productsDropdownOpen, setProductsDropdownOpen] = useState(false);
+  const [whoWeServeDropdownOpen, setWhoWeServeDropdownOpen] = useState(false);
   const stats = [
   {
     label: 'Estimated Monthly Spend',
@@ -114,6 +120,658 @@ export function Dashboard() {
               <button className="text-white/70 text-base font-medium hover:text-white transition-opacity">
                 Billing
               </button>
+
+              {/* Who We Serve Dropdown */}
+              <div
+                className="relative"
+                onMouseEnter={() => setWhoWeServeDropdownOpen(true)}
+                onMouseLeave={() => setWhoWeServeDropdownOpen(false)}>
+                
+                <button className="text-white/70 text-base font-medium hover:text-white transition-opacity flex items-center gap-1">
+                  Who We Serve
+                  <ChevronDownIcon className="w-4 h-4" />
+                </button>
+
+                {whoWeServeDropdownOpen &&
+                <div className="absolute top-full right-0 mt-2 w-[420px] bg-white rounded-lg shadow-xl border border-gray-200 py-4 z-50">
+                    <div className="px-4 mb-3">
+                      <h3 className="text-xs font-bold text-[#6B7280] uppercase tracking-wider">
+                        SOLUTIONS BY ROLE
+                      </h3>
+                    </div>
+
+                    <div className="space-y-1 px-2">
+                      <button
+                      onClick={() =>
+                      alert(
+                        'Navigating to Supply Chain & Operations Leaders (demo)'
+                      )
+                      }
+                      className="w-full text-left p-4 hover:bg-gray-50 rounded-lg transition-colors">
+                      
+                        <div className="flex items-start gap-3">
+                          <span className="text-3xl">📊</span>
+                          <div className="flex-1">
+                            <h4 className="font-bold text-[#0C2340] mb-1">
+                              Supply Chain & Operations Leaders
+                            </h4>
+                            <p className="text-sm text-[#6B7280]">
+                              Take control of your entire supply chain from a
+                              single pane of glass.
+                            </p>
+                          </div>
+                        </div>
+                      </button>
+
+                      <button
+                      onClick={() =>
+                      alert(
+                        'Navigating to Logistics & Transportation Managers (demo)'
+                      )
+                      }
+                      className="w-full text-left p-4 hover:bg-gray-50 rounded-lg transition-colors">
+                      
+                        <div className="flex items-start gap-3">
+                          <span className="text-3xl">🚛</span>
+                          <div className="flex-1">
+                            <h4 className="font-bold text-[#0C2340] mb-1">
+                              Logistics & Transportation Managers
+                            </h4>
+                            <p className="text-sm text-[#6B7280]">
+                              Execute shipments flawlessly without the
+                              spreadsheet chaos.
+                            </p>
+                          </div>
+                        </div>
+                      </button>
+
+                      <button
+                      onClick={() =>
+                      alert(
+                        'Navigating to E-commerce & Brand Growth Leaders (demo)'
+                      )
+                      }
+                      className="w-full text-left p-4 hover:bg-gray-50 rounded-lg transition-colors">
+                      
+                        <div className="flex items-start gap-3">
+                          <span className="text-3xl">🛍️</span>
+                          <div className="flex-1">
+                            <h4 className="font-bold text-[#0C2340] mb-1">
+                              E-commerce & Brand Growth Leaders
+                            </h4>
+                            <p className="text-sm text-[#6B7280]">
+                              Scale your brand with fast, unified fulfillment
+                              across every channel.
+                            </p>
+                          </div>
+                        </div>
+                      </button>
+
+                      <button
+                      onClick={() =>
+                      alert(
+                        'Navigating to Trade Compliance & Customs Specialists (demo)'
+                      )
+                      }
+                      className="w-full text-left p-4 hover:bg-gray-50 rounded-lg transition-colors">
+                      
+                        <div className="flex items-start gap-3">
+                          <span className="text-3xl">🛃</span>
+                          <div className="flex-1">
+                            <h4 className="font-bold text-[#0C2340] mb-1">
+                              Trade Compliance & Customs Specialists
+                            </h4>
+                            <p className="text-sm text-[#6B7280]">
+                              De-risk your imports with AI-powered customs
+                              clearance.
+                            </p>
+                          </div>
+                        </div>
+                      </button>
+
+                      <button
+                      onClick={() =>
+                      alert(
+                        'Navigating to Finance & Treasury Executives (demo)'
+                      )
+                      }
+                      className="w-full text-left p-4 hover:bg-gray-50 rounded-lg transition-colors">
+                      
+                        <div className="flex items-start gap-3">
+                          <span className="text-3xl">💰</span>
+                          <div className="flex-1">
+                            <h4 className="font-bold text-[#0C2340] mb-1">
+                              Finance & Treasury Executives
+                            </h4>
+                            <p className="text-sm text-[#6B7280]">
+                              Unlock working capital trapped in your supply
+                              chain.
+                            </p>
+                          </div>
+                        </div>
+                      </button>
+                    </div>
+                  </div>
+                }
+              </div>
+
+              {/* Tools & Calculators */}
+              <button className="text-white/70 text-base font-medium hover:text-white transition-opacity">
+                Tools & Calculators
+              </button>
+
+              {/* Resources Dropdown */}
+              <div
+                className="relative"
+                onMouseEnter={() => setResourcesDropdownOpen(true)}
+                onMouseLeave={() => setResourcesDropdownOpen(false)}>
+                
+                <button className="text-white/70 text-base font-medium hover:text-white transition-opacity flex items-center gap-1">
+                  Resources
+                  <ChevronDownIcon className="w-4 h-4" />
+                </button>
+
+                {resourcesDropdownOpen &&
+                <div className="absolute top-full right-0 mt-2 w-80 bg-white rounded-lg shadow-xl border border-gray-200 py-3 z-50">
+                    {/* INSIGHTS Section */}
+                    <div className="px-4 py-2">
+                      <h3 className="text-xs font-bold text-[#6B7280] uppercase tracking-wider mb-2">
+                        INSIGHTS
+                      </h3>
+                      <div className="space-y-1">
+                        <a
+                        href="#"
+                        className="flex items-center gap-3 px-2 py-2 text-[#0C2340] hover:bg-gray-50 rounded transition-colors">
+                        
+                          <span className="text-2xl">🌍</span>
+                          <span className="font-medium text-sm">
+                            Global Logistics Update
+                          </span>
+                        </a>
+                        <a
+                        href="#"
+                        className="flex items-center gap-3 px-2 py-2 text-[#0C2340] hover:bg-gray-50 rounded transition-colors">
+                        
+                          <span className="text-2xl">📰</span>
+                          <span className="font-medium text-sm">Blog</span>
+                        </a>
+                        <a
+                        href="#"
+                        className="flex items-center gap-3 px-2 py-2 text-[#0C2340] hover:bg-gray-50 rounded transition-colors">
+                        
+                          <span className="text-2xl">🎥</span>
+                          <span className="font-medium text-sm">Webinars</span>
+                        </a>
+                        <a
+                        href="#"
+                        className="flex items-center gap-3 px-2 py-2 text-[#0C2340] hover:bg-gray-50 rounded transition-colors">
+                        
+                          <span className="text-2xl">📚</span>
+                          <span className="font-medium text-sm">E-Guides</span>
+                        </a>
+                      </div>
+                    </div>
+
+                    {/* Divider */}
+                    <div className="border-t border-gray-200 my-3"></div>
+
+                    {/* RESOURCES Section */}
+                    <div className="px-4 py-2">
+                      <h3 className="text-xs font-bold text-[#6B7280] uppercase tracking-wider mb-2">
+                        RESOURCES
+                      </h3>
+                      <div className="space-y-1">
+                        <a
+                        href="#"
+                        className="flex items-center gap-3 px-2 py-2 text-[#0C2340] hover:bg-gray-50 rounded transition-colors">
+                        
+                          <span className="text-2xl">⭐</span>
+                          <span className="font-medium text-sm">Customers</span>
+                        </a>
+                        <a
+                        href="#"
+                        className="flex items-center gap-3 px-2 py-2 text-[#0C2340] hover:bg-gray-50 rounded transition-colors">
+                        
+                          <span className="text-2xl">🎯</span>
+                          <span className="font-medium text-sm">
+                            RFP 2026 Hub
+                          </span>
+                        </a>
+                        <a
+                        href="#"
+                        className="flex items-center gap-3 px-2 py-2 text-[#0C2340] hover:bg-gray-50 rounded transition-colors">
+                        
+                          <span className="text-2xl">❓</span>
+                          <span className="font-medium text-sm">
+                            Fulfillment Help Center
+                          </span>
+                        </a>
+                        <a
+                        href="#"
+                        className="flex items-center gap-3 px-2 py-2 text-[#0C2340] hover:bg-gray-50 rounded transition-colors">
+                        
+                          <span className="text-2xl">▶️</span>
+                          <span className="font-medium text-sm">
+                            Video Tutorials
+                          </span>
+                        </a>
+                        <a
+                        href="#"
+                        className="flex items-center gap-3 px-2 py-2 text-[#0C2340] hover:bg-gray-50 rounded transition-colors">
+                        
+                          <span className="text-2xl">📖</span>
+                          <span className="font-medium text-sm">Glossary</span>
+                        </a>
+                      </div>
+                    </div>
+                  </div>
+                }
+              </div>
+
+              {/* Products Mega Menu */}
+              <div
+                className="relative"
+                onMouseEnter={() => setProductsDropdownOpen(true)}
+                onMouseLeave={() => setProductsDropdownOpen(false)}>
+                
+                <button className="text-white/70 text-base font-medium hover:text-white transition-opacity flex items-center gap-1">
+                  Products
+                  <ChevronDownIcon className="w-4 h-4" />
+                </button>
+
+                {productsDropdownOpen &&
+                <div className="absolute top-full right-0 mt-2 w-[640px] bg-white rounded-lg shadow-xl border border-gray-200 py-6 z-50">
+                    {/* CUSTOMS Section */}
+                    <div className="px-6 mb-6">
+                      <h3 className="text-xs font-bold text-[#0C2340] uppercase tracking-wider mb-4">
+                        CUSTOMS
+                      </h3>
+                      <div className="grid grid-cols-2 gap-x-8 gap-y-3">
+                        <button
+                        onClick={() =>
+                        alert('Navigating to Customs Brokerage (demo)')
+                        }
+                        className="flex items-center gap-3 text-left hover:bg-gray-50 p-2 rounded transition-colors">
+                        
+                          <span className="text-2xl">🛃</span>
+                          <span className="font-medium text-sm text-[#0C2340]">
+                            Customs Brokerage
+                          </span>
+                        </button>
+                        <button
+                        onClick={() =>
+                        alert('Navigating to Trade Advisory (demo)')
+                        }
+                        className="flex items-center gap-3 text-left hover:bg-gray-50 p-2 rounded transition-colors">
+                        
+                          <span className="text-2xl">👥</span>
+                          <span className="font-medium text-sm text-[#0C2340]">
+                            Trade Advisory
+                          </span>
+                        </button>
+                        <button
+                        onClick={() =>
+                        alert('Navigating to Tariff Simulator (demo)')
+                        }
+                        className="flex items-center gap-3 text-left hover:bg-gray-50 p-2 rounded transition-colors">
+                        
+                          <span className="text-2xl">💵</span>
+                          <span className="font-medium text-sm text-[#0C2340]">
+                            Tariff Simulator
+                          </span>
+                        </button>
+                        <button
+                        onClick={() =>
+                        alert('Navigating to Tariff Refunds (demo)')
+                        }
+                        className="flex items-center gap-3 text-left hover:bg-gray-50 p-2 rounded transition-colors">
+                        
+                          <span className="text-2xl">🧾</span>
+                          <span className="font-medium text-sm text-[#0C2340]">
+                            Tariff Refunds
+                          </span>
+                        </button>
+                        <button
+                        onClick={() =>
+                        alert('Navigating to Duty Drawback (demo)')
+                        }
+                        className="flex items-center gap-3 text-left hover:bg-gray-50 p-2 rounded transition-colors">
+                        
+                          <span className="text-2xl">↩️</span>
+                          <span className="font-medium text-sm text-[#0C2340]">
+                            Duty Drawback
+                          </span>
+                        </button>
+                        <button
+                        onClick={() =>
+                        alert('Navigating to Compliance Audit (demo)')
+                        }
+                        className="flex items-center gap-3 text-left hover:bg-gray-50 p-2 rounded transition-colors">
+                        
+                          <span className="text-2xl">✅</span>
+                          <span className="font-medium text-sm text-[#0C2340]">
+                            Compliance Audit
+                          </span>
+                        </button>
+                        <button
+                        onClick={() =>
+                        alert('Navigating to Classification (demo)')
+                        }
+                        className="flex items-center gap-3 text-left hover:bg-gray-50 p-2 rounded transition-colors">
+                        
+                          <span className="text-2xl">🏷️</span>
+                          <span className="font-medium text-sm text-[#0C2340]">
+                            Classification
+                          </span>
+                        </button>
+                      </div>
+                    </div>
+
+                    <div className="border-t border-gray-200 my-4"></div>
+
+                    {/* FREIGHT FORWARDING CONTROL TOWER Section */}
+                    <div className="px-6 mb-6">
+                      <h3 className="text-xs font-bold text-[#0C2340] uppercase tracking-wider mb-4">
+                        FREIGHT FORWARDING CONTROL TOWER
+                      </h3>
+                      <div className="grid grid-cols-2 gap-x-8 gap-y-3">
+                        <button
+                        onClick={() =>
+                        alert('Navigating to Ocean Freight (demo)')
+                        }
+                        className="flex items-center gap-3 text-left hover:bg-gray-50 p-2 rounded transition-colors">
+                        
+                          <span className="text-2xl">🚢</span>
+                          <span className="font-medium text-sm text-[#0C2340]">
+                            Ocean Freight
+                          </span>
+                        </button>
+                        <button
+                        onClick={() =>
+                        alert('Navigating to Air Freight (demo)')
+                        }
+                        className="flex items-center gap-3 text-left hover:bg-gray-50 p-2 rounded transition-colors">
+                        
+                          <span className="text-2xl">✈️</span>
+                          <span className="font-medium text-sm text-[#0C2340]">
+                            Air Freight
+                          </span>
+                        </button>
+                        <button
+                        onClick={() => alert('Navigating to Trucking (demo)')}
+                        className="flex items-center gap-3 text-left hover:bg-gray-50 p-2 rounded transition-colors">
+                        
+                          <span className="text-2xl">🚛</span>
+                          <span className="font-medium text-sm text-[#0C2340]">
+                            Trucking
+                          </span>
+                        </button>
+                        <button
+                        onClick={() =>
+                        alert('Navigating to Order Management (demo)')
+                        }
+                        className="flex items-center gap-3 text-left hover:bg-gray-50 p-2 rounded transition-colors">
+                        
+                          <span className="text-2xl">📊</span>
+                          <span className="font-medium text-sm text-[#0C2340]">
+                            Order Management
+                          </span>
+                        </button>
+                        <button
+                        onClick={() =>
+                        alert('Navigating to Booking Management (demo)')
+                        }
+                        className="flex items-center gap-3 text-left hover:bg-gray-50 p-2 rounded transition-colors">
+                        
+                          <span className="text-2xl">📋</span>
+                          <span className="font-medium text-sm text-[#0C2340]">
+                            Booking Management
+                          </span>
+                        </button>
+                        <button
+                        onClick={() =>
+                        alert("Navigating to Buyer's Consolidation (demo)")
+                        }
+                        className="flex items-center gap-3 text-left hover:bg-gray-50 p-2 rounded transition-colors">
+                        
+                          <span className="text-2xl">📦</span>
+                          <span className="font-medium text-sm text-[#0C2340]">
+                            Buyer's Consolidation
+                          </span>
+                        </button>
+                        <button
+                        onClick={() =>
+                        alert('Navigating to Carbon Control (demo)')
+                        }
+                        className="flex items-center gap-3 text-left hover:bg-gray-50 p-2 rounded transition-colors">
+                        
+                          <span className="text-2xl">🌱</span>
+                          <span className="font-medium text-sm text-[#0C2340]">
+                            Carbon Control
+                          </span>
+                        </button>
+                      </div>
+                    </div>
+
+                    <div className="border-t border-gray-200 my-4"></div>
+
+                    {/* FULFILLMENT and FINANCIAL SERVICES in 2 columns */}
+                    <div className="px-6 grid grid-cols-2 gap-x-8">
+                      {/* FULFILLMENT Section */}
+                      <div>
+                        <h3 className="text-xs font-bold text-[#0C2340] uppercase tracking-wider mb-4">
+                          FULFILLMENT
+                        </h3>
+                        <div className="space-y-3">
+                          <button
+                          onClick={() =>
+                          alert(
+                            'Navigating to eCommerce Fulfillment (demo)'
+                          )
+                          }
+                          className="flex items-center gap-3 text-left hover:bg-gray-50 p-2 rounded transition-colors w-full">
+                          
+                            <span className="text-2xl">🚚</span>
+                            <span className="font-medium text-sm text-[#0C2340]">
+                              eCommerce Fulfillment
+                            </span>
+                          </button>
+                          <button
+                          onClick={() =>
+                          alert('Navigating to B2B Fulfillment (demo)')
+                          }
+                          className="flex items-center gap-3 text-left hover:bg-gray-50 p-2 rounded transition-colors w-full">
+                          
+                            <span className="text-2xl">🏪</span>
+                            <span className="font-medium text-sm text-[#0C2340]">
+                              B2B Fulfillment
+                            </span>
+                          </button>
+                          <button
+                          onClick={() =>
+                          alert('Navigating to Returns (demo)')
+                          }
+                          className="flex items-center gap-3 text-left hover:bg-gray-50 p-2 rounded transition-colors w-full">
+                          
+                            <span className="text-2xl">🔄</span>
+                            <span className="font-medium text-sm text-[#0C2340]">
+                              Returns
+                            </span>
+                          </button>
+                        </div>
+                      </div>
+
+                      {/* FINANCIAL SERVICES Section */}
+                      <div>
+                        <h3 className="text-xs font-bold text-[#0C2340] uppercase tracking-wider mb-4">
+                          FINANCIAL SERVICES
+                        </h3>
+                        <div className="space-y-3">
+                          <button
+                          onClick={() =>
+                          alert('Navigating to Trade Finance (demo)')
+                          }
+                          className="flex items-center gap-3 text-left hover:bg-gray-50 p-2 rounded transition-colors w-full">
+                          
+                            <span className="text-2xl">💰</span>
+                            <span className="font-medium text-sm text-[#0C2340]">
+                              Trade Finance
+                            </span>
+                          </button>
+                          <button
+                          onClick={() =>
+                          alert('Navigating to Insurance (demo)')
+                          }
+                          className="flex items-center gap-3 text-left hover:bg-gray-50 p-2 rounded transition-colors w-full">
+                          
+                            <span className="text-2xl">☂️</span>
+                            <span className="font-medium text-sm text-[#0C2340]">
+                              Insurance
+                            </span>
+                          </button>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                }
+              </div>
+
+              {/* Services Dropdown */}
+              <div
+                className="relative"
+                onMouseEnter={() => setServicesDropdownOpen(true)}
+                onMouseLeave={() => setServicesDropdownOpen(false)}>
+                
+                <button className="text-white/70 text-base font-medium hover:text-white transition-opacity flex items-center gap-1">
+                  Services
+                  <ChevronDownIcon className="w-4 h-4" />
+                </button>
+
+                {servicesDropdownOpen &&
+                <div className="absolute top-full right-0 mt-2 w-64 bg-white rounded-lg shadow-xl border border-gray-200 py-2 z-50">
+                    <a
+                    href="#"
+                    className="block px-4 py-3 text-[#0C2340] hover:bg-gray-50 transition-colors">
+                    
+                      <div className="font-semibold text-sm">
+                        Ecommerce Fulfillment
+                      </div>
+                      <div className="text-xs text-[#6B7280] mt-0.5">
+                        Store, pack, and ship your orders
+                      </div>
+                    </a>
+                    <a
+                    href="#"
+                    className="block px-4 py-3 text-[#0C2340] hover:bg-gray-50 transition-colors">
+                    
+                      <div className="font-semibold text-sm">
+                        Freight Forwarding
+                      </div>
+                      <div className="text-xs text-[#6B7280] mt-0.5">
+                        Ocean, air, and ground shipping
+                      </div>
+                    </a>
+                    <a
+                    href="#"
+                    className="block px-4 py-3 text-[#0C2340] hover:bg-gray-50 transition-colors">
+                    
+                      <div className="font-semibold text-sm">
+                        Customs Brokerage
+                      </div>
+                      <div className="text-xs text-[#6B7280] mt-0.5">
+                        Fast customs clearance
+                      </div>
+                    </a>
+                    <a
+                    href="#"
+                    className="block px-4 py-3 text-[#0C2340] hover:bg-gray-50 transition-colors">
+                    
+                      <div className="font-semibold text-sm">
+                        Enterprise Solutions
+                      </div>
+                      <div className="text-xs text-[#6B7280] mt-0.5">
+                        End-to-end supply chain management
+                      </div>
+                    </a>
+                    <a
+                    href="#"
+                    className="block px-4 py-3 text-[#0C2340] hover:bg-gray-50 transition-colors">
+                    
+                      <div className="font-semibold text-sm">
+                        Developer APIs
+                      </div>
+                      <div className="text-xs text-[#6B7280] mt-0.5">
+                        Integrate logistics into your platform
+                      </div>
+                    </a>
+                  </div>
+                }
+              </div>
+
+              {/* Company Dropdown */}
+              <div
+                className="relative"
+                onMouseEnter={() => setCompanyDropdownOpen(true)}
+                onMouseLeave={() => setCompanyDropdownOpen(false)}>
+                
+                <button className="text-white/70 text-base font-medium hover:text-white transition-opacity flex items-center gap-1">
+                  Company
+                  <ChevronDownIcon className="w-4 h-4" />
+                </button>
+
+                {companyDropdownOpen &&
+                <div className="absolute top-full right-0 mt-2 w-56 bg-white rounded-lg shadow-xl border border-gray-200 py-2 z-50">
+                    <a
+                    href="#"
+                    className="block px-4 py-3 text-[#0C2340] hover:bg-gray-50 transition-colors">
+                    
+                      <div className="font-semibold text-sm">About Us</div>
+                      <div className="text-xs text-[#6B7280] mt-0.5">
+                        Our mission and values
+                      </div>
+                    </a>
+                    <a
+                    href="#"
+                    className="block px-4 py-3 text-[#0C2340] hover:bg-gray-50 transition-colors">
+                    
+                      <div className="font-semibold text-sm">Careers</div>
+                      <div className="text-xs text-[#6B7280] mt-0.5">
+                        Join our team
+                      </div>
+                    </a>
+                    <a
+                    href="#"
+                    className="block px-4 py-3 text-[#0C2340] hover:bg-gray-50 transition-colors">
+                    
+                      <div className="font-semibold text-sm">
+                        Technology & Product
+                      </div>
+                      <div className="text-xs text-[#6B7280] mt-0.5">
+                        Latest releases and innovations
+                      </div>
+                    </a>
+                    <a
+                    href="#"
+                    className="block px-4 py-3 text-[#0C2340] hover:bg-gray-50 transition-colors">
+                    
+                      <div className="font-semibold text-sm">Newsroom</div>
+                      <div className="text-xs text-[#6B7280] mt-0.5">
+                        Press and announcements
+                      </div>
+                    </a>
+                    <a
+                    href="#"
+                    className="block px-4 py-3 text-[#0C2340] hover:bg-gray-50 transition-colors">
+                    
+                      <div className="font-semibold text-sm">Contact</div>
+                      <div className="text-xs text-[#6B7280] mt-0.5">
+                        Get in touch
+                      </div>
+                    </a>
+                  </div>
+                }
+              </div>
+
               <div className="w-10 h-10 bg-indigo-600 rounded-full flex items-center justify-center text-white font-semibold">
                 JD
               </div>

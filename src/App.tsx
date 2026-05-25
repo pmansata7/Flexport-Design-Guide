@@ -17,22 +17,38 @@ type Step =
 'account' |
 'dashboard';
 type Intent = 'freight' | 'customs' | 'fulfillment' | 'unsure' | null;
+type CalculatorType =
+'fulfillment' |
+'receiving' |
+'storage' |
+'returns' |
+'freight' |
+'tariff';
 export function App() {
   const [currentStep, setCurrentStep] = useState<Step>('homepage');
   const [intent, setIntent] = useState<Intent>(null);
   const [estimatorData, setEstimatorData] = useState<any>(null);
   const [estimatorResult, setEstimatorResult] = useState<any>(null);
   const [connectedChannels, setConnectedChannels] = useState<string[]>([]);
+  const [selectedCalculator, setSelectedCalculator] =
+  useState<CalculatorType>('fulfillment');
   const handleGetStarted = () => {
     setCurrentStep('qualification');
+  };
+  const handleNavigateToCalculators = (calculatorType?: CalculatorType) => {
+    if (calculatorType) {
+      setSelectedCalculator(calculatorType);
+    }
+    setCurrentStep('calculators');
+  };
+  const handleNavigateToHome = () => {
+    setCurrentStep('homepage');
   };
   const handleQualificationComplete = (selectedIntent: Intent, data: any) => {
     setIntent(selectedIntent);
     if (selectedIntent === 'fulfillment') {
       setCurrentStep('estimator');
     } else {
-      // For other intents, would route to their specific flows
-      // For demo purposes, going to estimator
       setCurrentStep('estimator');
     }
   };
@@ -56,11 +72,17 @@ export function App() {
       {currentStep === 'homepage' &&
       <NewHomepage
         onGetStarted={handleGetStarted}
-        onNavigateToCalculators={() => setCurrentStep('calculators')} />
+        onNavigateToCalculators={handleNavigateToCalculators} />
 
       }
 
-      {currentStep === 'calculators' && <CalculatorsPage />}
+      {currentStep === 'calculators' &&
+      <CalculatorsPage
+        onNavigateToHome={handleNavigateToHome}
+        onGetStarted={handleGetStarted}
+        initialCalculator={selectedCalculator} />
+
+      }
 
       {currentStep === 'qualification' &&
       <QualificationGate onComplete={handleQualificationComplete} />

@@ -10,6 +10,12 @@ import {
   CalculatorIcon,
   ShipIcon,
   DollarSignIcon,
+  ChevronDownIcon,
+  SearchIcon,
+  CloudIcon,
+  GlobeIcon,
+  ClipboardCheckIcon,
+  TrendingUpIcon,
 } from 'lucide-react'
 import {
   calculateFulfillmentEstimate,
@@ -24,16 +30,50 @@ type CalculatorType =
   | 'returns'
   | 'freight'
   | 'tariff'
-export function CalculatorsPage() {
+interface CalculatorsPageProps {
+  onNavigateToHome: () => void
+  onGetStarted: () => void
+  initialCalculator?: CalculatorType
+}
+export function CalculatorsPage({
+  onNavigateToHome,
+  onGetStarted,
+  initialCalculator = 'fulfillment',
+}: CalculatorsPageProps) {
   const [activeCalculator, setActiveCalculator] =
-    useState<CalculatorType>('fulfillment')
+    useState<CalculatorType>(initialCalculator)
+  const [whoWeServeDropdownOpen, setWhoWeServeDropdownOpen] = useState(false)
+  const [servicesDropdownOpen, setServicesDropdownOpen] = useState(false)
+  const [resourcesDropdownOpen, setResourcesDropdownOpen] = useState(false)
+  const [companyDropdownOpen, setCompanyDropdownOpen] = useState(false)
+  const [mouseEnter, setMouseEnter] = useState<string | null>(null)
+  const handleNavClick = (section: string) => {
+    // Route to specific calculators based on section
+    if (section === 'Freight Forwarding') {
+      setActiveCalculator('freight')
+      setServicesDropdownOpen(false)
+    } else if (section === 'Ecommerce Fulfillment') {
+      setActiveCalculator('fulfillment')
+      setServicesDropdownOpen(false)
+    } else {
+      alert(`Navigating to ${section} (demo)`)
+    }
+  }
+  const handleMouseEnter = (section: string) => {
+    setMouseEnter(section)
+  }
+  const handleMouseLeave = (section: string) => {
+    setMouseEnter(null)
+  }
   const calculators = [
+    // CALCULATORS
     {
       id: 'fulfillment' as CalculatorType,
       title: 'Fulfillment Cost Estimator',
       description: 'Estimate monthly fulfillment costs based on order volume',
       icon: PackageIcon,
       color: 'bg-blue-500',
+      category: 'calculator',
     },
     {
       id: 'freight' as CalculatorType,
@@ -41,6 +81,7 @@ export function CalculatorsPage() {
       description: 'Get instant ocean and air freight quotes',
       icon: ShipIcon,
       color: 'bg-cyan-500',
+      category: 'calculator',
     },
     {
       id: 'receiving' as CalculatorType,
@@ -48,6 +89,7 @@ export function CalculatorsPage() {
       description: 'Calculate inbound receiving costs and compliance fees',
       icon: TruckIcon,
       color: 'bg-green-500',
+      category: 'calculator',
     },
     {
       id: 'storage' as CalculatorType,
@@ -55,6 +97,7 @@ export function CalculatorsPage() {
       description: 'Estimate storage costs and long-term fees',
       icon: WarehouseIcon,
       color: 'bg-purple-500',
+      category: 'calculator',
     },
     {
       id: 'returns' as CalculatorType,
@@ -62,6 +105,7 @@ export function CalculatorsPage() {
       description: 'Calculate returns processing and inspection costs',
       icon: RefreshCwIcon,
       color: 'bg-orange-500',
+      category: 'calculator',
     },
     {
       id: 'tariff' as CalculatorType,
@@ -69,46 +113,635 @@ export function CalculatorsPage() {
       description: 'Calculate potential IEEPA tariff refunds',
       icon: DollarSignIcon,
       color: 'bg-emerald-500',
+      category: 'calculator',
+    },
+    // TOOLS
+    {
+      id: 'tariff-simulator' as any,
+      title: 'Tariff Simulator',
+      description: 'Simulate tariff scenarios and costs',
+      icon: CalculatorIcon,
+      color: 'bg-indigo-500',
+      category: 'tool',
+    },
+    {
+      id: 'rate-explorer' as any,
+      title: 'Flexport Rate Explorer',
+      description: 'Explore and compare shipping rates',
+      icon: TrendingUpIcon,
+      color: 'bg-blue-600',
+      category: 'tool',
+    },
+    {
+      id: 'hs-codes' as any,
+      title: 'HS Codes',
+      description: 'Look up harmonized system codes',
+      icon: SearchIcon,
+      color: 'bg-teal-500',
+      category: 'tool',
+    },
+    {
+      id: 'emissions' as any,
+      title: 'Open Emissions Calculator',
+      description: 'Calculate carbon emissions for shipments',
+      icon: CloudIcon,
+      color: 'bg-green-600',
+      category: 'tool',
+    },
+    {
+      id: 'atlas' as any,
+      title: 'Flexport Atlas',
+      description: 'Interactive global shipping map',
+      icon: GlobeIcon,
+      color: 'bg-purple-600',
+      category: 'tool',
+    },
+    {
+      id: 'broker-audit' as any,
+      title: 'Audit Your Customs Broker',
+      description: 'Evaluate your customs broker performance',
+      icon: ClipboardCheckIcon,
+      color: 'bg-amber-500',
+      category: 'tool',
     },
   ]
+  const calculatorItems = calculators.filter((c) => c.category === 'calculator')
+  const toolItems = calculators.filter((c) => c.category === 'tool')
   return (
     <div className="min-h-screen bg-gray-50">
       {/* Navigation */}
       <nav className="bg-[#0C2340]">
         <div className="max-w-[1280px] mx-auto px-6 lg:px-20">
           <div className="flex items-center justify-between h-20">
-            <div className="flex-shrink-0">
+            <button onClick={onNavigateToHome} className="flex-shrink-0">
               <span className="text-white text-2xl font-bold">flexport</span>
-            </div>
+            </button>
             <div className="hidden md:flex items-center gap-6">
-              <a
-                href="#"
-                className="text-white/70 text-base font-medium hover:text-white transition-opacity"
+              {/* Who We Serve Dropdown */}
+              <div
+                className="relative"
+                onMouseEnter={() => handleMouseEnter('whoWeServe')}
+                onMouseLeave={() => handleMouseLeave('whoWeServe')}
               >
-                Solutions
-              </a>
-              <a
-                href="#"
+                <button className="text-white/70 text-base font-medium hover:text-white transition-opacity flex items-center gap-1">
+                  Who We Serve
+                  <ChevronDownIcon className="w-4 h-4" />
+                </button>
+
+                {whoWeServeDropdownOpen && (
+                  <div className="absolute top-full left-0 mt-2 w-[420px] bg-white rounded-lg shadow-xl border border-gray-200 py-4 z-50">
+                    <div className="px-4 mb-3">
+                      <h3 className="text-xs font-bold text-[#6B7280] uppercase tracking-wider">
+                        SOLUTIONS BY ROLE
+                      </h3>
+                    </div>
+
+                    <div className="space-y-1 px-2">
+                      <button
+                        onClick={() =>
+                          handleNavClick('Supply Chain & Operations Leaders')
+                        }
+                        className="w-full text-left p-4 hover:bg-gray-50 rounded-lg transition-colors"
+                      >
+                        <div className="flex items-start gap-3">
+                          <span className="text-3xl">📊</span>
+                          <div className="flex-1">
+                            <h4 className="font-bold text-[#0C2340] mb-1">
+                              Supply Chain & Operations Leaders
+                            </h4>
+                            <p className="text-sm text-[#6B7280]">
+                              Take control of your entire supply chain from a
+                              single pane of glass.
+                            </p>
+                          </div>
+                        </div>
+                      </button>
+
+                      <button
+                        onClick={() =>
+                          handleNavClick('Logistics & Transportation Managers')
+                        }
+                        className="w-full text-left p-4 hover:bg-gray-50 rounded-lg transition-colors"
+                      >
+                        <div className="flex items-start gap-3">
+                          <span className="text-3xl">🚛</span>
+                          <div className="flex-1">
+                            <h4 className="font-bold text-[#0C2340] mb-1">
+                              Logistics & Transportation Managers
+                            </h4>
+                            <p className="text-sm text-[#6B7280]">
+                              Execute shipments flawlessly without the
+                              spreadsheet chaos.
+                            </p>
+                          </div>
+                        </div>
+                      </button>
+
+                      <button
+                        onClick={() =>
+                          handleNavClick('E-commerce & Brand Growth Leaders')
+                        }
+                        className="w-full text-left p-4 hover:bg-gray-50 rounded-lg transition-colors"
+                      >
+                        <div className="flex items-start gap-3">
+                          <span className="text-3xl">🛍️</span>
+                          <div className="flex-1">
+                            <h4 className="font-bold text-[#0C2340] mb-1">
+                              E-commerce & Brand Growth Leaders
+                            </h4>
+                            <p className="text-sm text-[#6B7280]">
+                              Scale your brand with fast, unified fulfillment
+                              across every channel.
+                            </p>
+                          </div>
+                        </div>
+                      </button>
+
+                      <button
+                        onClick={() =>
+                          handleNavClick(
+                            'Trade Compliance & Customs Specialists',
+                          )
+                        }
+                        className="w-full text-left p-4 hover:bg-gray-50 rounded-lg transition-colors"
+                      >
+                        <div className="flex items-start gap-3">
+                          <span className="text-3xl">🛃</span>
+                          <div className="flex-1">
+                            <h4 className="font-bold text-[#0C2340] mb-1">
+                              Trade Compliance & Customs Specialists
+                            </h4>
+                            <p className="text-sm text-[#6B7280]">
+                              De-risk your imports with AI-powered customs
+                              clearance.
+                            </p>
+                          </div>
+                        </div>
+                      </button>
+
+                      <button
+                        onClick={() =>
+                          handleNavClick('Finance & Treasury Executives')
+                        }
+                        className="w-full text-left p-4 hover:bg-gray-50 rounded-lg transition-colors"
+                      >
+                        <div className="flex items-start gap-3">
+                          <span className="text-3xl">💰</span>
+                          <div className="flex-1">
+                            <h4 className="font-bold text-[#0C2340] mb-1">
+                              Finance & Treasury Executives
+                            </h4>
+                            <p className="text-sm text-[#6B7280]">
+                              Unlock working capital trapped in your supply
+                              chain.
+                            </p>
+                          </div>
+                        </div>
+                      </button>
+                    </div>
+                  </div>
+                )}
+              </div>
+
+              {/* Products Mega Menu */}
+              <div
+                className="relative"
+                onMouseEnter={() => handleMouseEnter('services')}
+                onMouseLeave={() => handleMouseLeave('services')}
+              >
+                <button className="text-white/70 text-base font-medium hover:text-white transition-opacity flex items-center gap-1">
+                  Products
+                  <ChevronDownIcon className="w-4 h-4" />
+                </button>
+
+                {servicesDropdownOpen && (
+                  <div className="absolute top-full left-0 mt-2 w-[640px] bg-white rounded-lg shadow-xl border border-gray-200 py-6 z-50">
+                    {/* CUSTOMS Section */}
+                    <div className="px-6 mb-6">
+                      <h3 className="text-xs font-bold text-[#0C2340] uppercase tracking-wider mb-4">
+                        CUSTOMS
+                      </h3>
+                      <div className="grid grid-cols-2 gap-x-8 gap-y-3">
+                        <button
+                          onClick={() => handleNavClick('Customs Brokerage')}
+                          className="flex items-center gap-3 text-left hover:bg-gray-50 p-2 rounded transition-colors"
+                        >
+                          <span className="text-2xl">🛃</span>
+                          <span className="font-medium text-sm text-[#0C2340]">
+                            Customs Brokerage
+                          </span>
+                        </button>
+                        <button
+                          onClick={() => handleNavClick('Trade Advisory')}
+                          className="flex items-center gap-3 text-left hover:bg-gray-50 p-2 rounded transition-colors"
+                        >
+                          <span className="text-2xl">👥</span>
+                          <span className="font-medium text-sm text-[#0C2340]">
+                            Trade Advisory
+                          </span>
+                        </button>
+                        <button
+                          onClick={() => {
+                            setServicesDropdownOpen(false)
+                            setActiveCalculator('tariff')
+                          }}
+                          className="flex items-center gap-3 text-left hover:bg-gray-50 p-2 rounded transition-colors"
+                        >
+                          <span className="text-2xl">💵</span>
+                          <span className="font-medium text-sm text-[#0C2340]">
+                            Tariff Simulator
+                          </span>
+                        </button>
+                        <button
+                          onClick={() => {
+                            setServicesDropdownOpen(false)
+                            setActiveCalculator('tariff')
+                          }}
+                          className="flex items-center gap-3 text-left hover:bg-gray-50 p-2 rounded transition-colors"
+                        >
+                          <span className="text-2xl">🧾</span>
+                          <span className="font-medium text-sm text-[#0C2340]">
+                            Tariff Refunds
+                          </span>
+                        </button>
+                        <button
+                          onClick={() => handleNavClick('Duty Drawback')}
+                          className="flex items-center gap-3 text-left hover:bg-gray-50 p-2 rounded transition-colors"
+                        >
+                          <span className="text-2xl">↩️</span>
+                          <span className="font-medium text-sm text-[#0C2340]">
+                            Duty Drawback
+                          </span>
+                        </button>
+                        <button
+                          onClick={() => handleNavClick('Compliance Audit')}
+                          className="flex items-center gap-3 text-left hover:bg-gray-50 p-2 rounded transition-colors"
+                        >
+                          <span className="text-2xl">✅</span>
+                          <span className="font-medium text-sm text-[#0C2340]">
+                            Compliance Audit
+                          </span>
+                        </button>
+                        <button
+                          onClick={() => handleNavClick('Classification')}
+                          className="flex items-center gap-3 text-left hover:bg-gray-50 p-2 rounded transition-colors"
+                        >
+                          <span className="text-2xl">🏷️</span>
+                          <span className="font-medium text-sm text-[#0C2340]">
+                            Classification
+                          </span>
+                        </button>
+                      </div>
+                    </div>
+
+                    <div className="border-t border-gray-200 my-4"></div>
+
+                    {/* FREIGHT FORWARDING CONTROL TOWER Section */}
+                    <div className="px-6 mb-6">
+                      <h3 className="text-xs font-bold text-[#0C2340] uppercase tracking-wider mb-4">
+                        FREIGHT FORWARDING CONTROL TOWER
+                      </h3>
+                      <div className="grid grid-cols-2 gap-x-8 gap-y-3">
+                        <button
+                          onClick={() => {
+                            setServicesDropdownOpen(false)
+                            setActiveCalculator('freight')
+                          }}
+                          className="flex items-center gap-3 text-left hover:bg-gray-50 p-2 rounded transition-colors"
+                        >
+                          <span className="text-2xl">🚢</span>
+                          <span className="font-medium text-sm text-[#0C2340]">
+                            Ocean Freight
+                          </span>
+                        </button>
+                        <button
+                          onClick={() => {
+                            setServicesDropdownOpen(false)
+                            setActiveCalculator('freight')
+                          }}
+                          className="flex items-center gap-3 text-left hover:bg-gray-50 p-2 rounded transition-colors"
+                        >
+                          <span className="text-2xl">✈️</span>
+                          <span className="font-medium text-sm text-[#0C2340]">
+                            Air Freight
+                          </span>
+                        </button>
+                        <button
+                          onClick={() => handleNavClick('Trucking')}
+                          className="flex items-center gap-3 text-left hover:bg-gray-50 p-2 rounded transition-colors"
+                        >
+                          <span className="text-2xl">🚛</span>
+                          <span className="font-medium text-sm text-[#0C2340]">
+                            Trucking
+                          </span>
+                        </button>
+                        <button
+                          onClick={() => handleNavClick('Order Management')}
+                          className="flex items-center gap-3 text-left hover:bg-gray-50 p-2 rounded transition-colors"
+                        >
+                          <span className="text-2xl">📊</span>
+                          <span className="font-medium text-sm text-[#0C2340]">
+                            Order Management
+                          </span>
+                        </button>
+                        <button
+                          onClick={() => handleNavClick('Booking Management')}
+                          className="flex items-center gap-3 text-left hover:bg-gray-50 p-2 rounded transition-colors"
+                        >
+                          <span className="text-2xl">📋</span>
+                          <span className="font-medium text-sm text-[#0C2340]">
+                            Booking Management
+                          </span>
+                        </button>
+                        <button
+                          onClick={() =>
+                            handleNavClick("Buyer's Consolidation")
+                          }
+                          className="flex items-center gap-3 text-left hover:bg-gray-50 p-2 rounded transition-colors"
+                        >
+                          <span className="text-2xl">📦</span>
+                          <span className="font-medium text-sm text-[#0C2340]">
+                            Buyer's Consolidation
+                          </span>
+                        </button>
+                        <button
+                          onClick={() => handleNavClick('Carbon Control')}
+                          className="flex items-center gap-3 text-left hover:bg-gray-50 p-2 rounded transition-colors"
+                        >
+                          <span className="text-2xl">🌱</span>
+                          <span className="font-medium text-sm text-[#0C2340]">
+                            Carbon Control
+                          </span>
+                        </button>
+                      </div>
+                    </div>
+
+                    <div className="border-t border-gray-200 my-4"></div>
+
+                    {/* FULFILLMENT and FINANCIAL SERVICES in 2 columns */}
+                    <div className="px-6 grid grid-cols-2 gap-x-8">
+                      {/* FULFILLMENT Section */}
+                      <div>
+                        <h3 className="text-xs font-bold text-[#0C2340] uppercase tracking-wider mb-4">
+                          FULFILLMENT
+                        </h3>
+                        <div className="space-y-3">
+                          <button
+                            onClick={() => {
+                              setServicesDropdownOpen(false)
+                              setActiveCalculator('fulfillment')
+                            }}
+                            className="flex items-center gap-3 text-left hover:bg-gray-50 p-2 rounded transition-colors w-full"
+                          >
+                            <span className="text-2xl">🚚</span>
+                            <span className="font-medium text-sm text-[#0C2340]">
+                              eCommerce Fulfillment
+                            </span>
+                          </button>
+                          <button
+                            onClick={() => handleNavClick('B2B Fulfillment')}
+                            className="flex items-center gap-3 text-left hover:bg-gray-50 p-2 rounded transition-colors w-full"
+                          >
+                            <span className="text-2xl">🏪</span>
+                            <span className="font-medium text-sm text-[#0C2340]">
+                              B2B Fulfillment
+                            </span>
+                          </button>
+                          <button
+                            onClick={() => {
+                              setServicesDropdownOpen(false)
+                              setActiveCalculator('returns')
+                            }}
+                            className="flex items-center gap-3 text-left hover:bg-gray-50 p-2 rounded transition-colors w-full"
+                          >
+                            <span className="text-2xl">🔄</span>
+                            <span className="font-medium text-sm text-[#0C2340]">
+                              Returns
+                            </span>
+                          </button>
+                        </div>
+                      </div>
+
+                      {/* FINANCIAL SERVICES Section */}
+                      <div>
+                        <h3 className="text-xs font-bold text-[#0C2340] uppercase tracking-wider mb-4">
+                          FINANCIAL SERVICES
+                        </h3>
+                        <div className="space-y-3">
+                          <button
+                            onClick={() => handleNavClick('Trade Finance')}
+                            className="flex items-center gap-3 text-left hover:bg-gray-50 p-2 rounded transition-colors w-full"
+                          >
+                            <span className="text-2xl">💰</span>
+                            <span className="font-medium text-sm text-[#0C2340]">
+                              Trade Finance
+                            </span>
+                          </button>
+                          <button
+                            onClick={() => handleNavClick('Insurance')}
+                            className="flex items-center gap-3 text-left hover:bg-gray-50 p-2 rounded transition-colors w-full"
+                          >
+                            <span className="text-2xl">☂️</span>
+                            <span className="font-medium text-sm text-[#0C2340]">
+                              Insurance
+                            </span>
+                          </button>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                )}
+              </div>
+
+              <button
+                onClick={onNavigateToHome}
                 className="text-white text-base font-medium hover:opacity-80 transition-opacity"
               >
-                Calculators
-              </a>
-              <a
-                href="#"
+                Tools & Calculators
+              </button>
+
+              {/* Resources Dropdown */}
+              <div
+                className="relative"
+                onMouseEnter={() => setResourcesDropdownOpen(true)}
+                onMouseLeave={() => setResourcesDropdownOpen(false)}
+              >
+                <button className="text-white/70 text-base font-medium hover:text-white transition-opacity flex items-center gap-1">
+                  Resources
+                  <ChevronDownIcon className="w-4 h-4" />
+                </button>
+
+                {resourcesDropdownOpen && (
+                  <div className="absolute top-full left-0 mt-2 w-80 bg-white rounded-lg shadow-xl border border-gray-200 py-3 z-50">
+                    {/* INSIGHTS Section */}
+                    <div className="px-4 py-2">
+                      <h3 className="text-xs font-bold text-[#6B7280] uppercase tracking-wider mb-2">
+                        INSIGHTS
+                      </h3>
+                      <div className="space-y-1">
+                        <a
+                          href="#"
+                          className="flex items-center gap-3 px-2 py-2 text-[#0C2340] hover:bg-gray-50 rounded transition-colors"
+                        >
+                          <span className="text-2xl">🌍</span>
+                          <span className="font-medium text-sm">
+                            Global Logistics Update
+                          </span>
+                        </a>
+                        <a
+                          href="#"
+                          className="flex items-center gap-3 px-2 py-2 text-[#0C2340] hover:bg-gray-50 rounded transition-colors"
+                        >
+                          <span className="text-2xl">📰</span>
+                          <span className="font-medium text-sm">Blog</span>
+                        </a>
+                        <a
+                          href="#"
+                          className="flex items-center gap-3 px-2 py-2 text-[#0C2340] hover:bg-gray-50 rounded transition-colors"
+                        >
+                          <span className="text-2xl">🎥</span>
+                          <span className="font-medium text-sm">Webinars</span>
+                        </a>
+                        <a
+                          href="#"
+                          className="flex items-center gap-3 px-2 py-2 text-[#0C2340] hover:bg-gray-50 rounded transition-colors"
+                        >
+                          <span className="text-2xl">📚</span>
+                          <span className="font-medium text-sm">E-Guides</span>
+                        </a>
+                      </div>
+                    </div>
+
+                    {/* Divider */}
+                    <div className="border-t border-gray-200 my-3"></div>
+
+                    {/* RESOURCES Section */}
+                    <div className="px-4 py-2">
+                      <h3 className="text-xs font-bold text-[#6B7280] uppercase tracking-wider mb-2">
+                        RESOURCES
+                      </h3>
+                      <div className="space-y-1">
+                        <a
+                          href="#"
+                          className="flex items-center gap-3 px-2 py-2 text-[#0C2340] hover:bg-gray-50 rounded transition-colors"
+                        >
+                          <span className="text-2xl">⭐</span>
+                          <span className="font-medium text-sm">Customers</span>
+                        </a>
+                        <a
+                          href="#"
+                          className="flex items-center gap-3 px-2 py-2 text-[#0C2340] hover:bg-gray-50 rounded transition-colors"
+                        >
+                          <span className="text-2xl">🎯</span>
+                          <span className="font-medium text-sm">
+                            RFP 2026 Hub
+                          </span>
+                        </a>
+                        <a
+                          href="#"
+                          className="flex items-center gap-3 px-2 py-2 text-[#0C2340] hover:bg-gray-50 rounded transition-colors"
+                        >
+                          <span className="text-2xl">❓</span>
+                          <span className="font-medium text-sm">
+                            Fulfillment Help Center
+                          </span>
+                        </a>
+                        <a
+                          href="#"
+                          className="flex items-center gap-3 px-2 py-2 text-[#0C2340] hover:bg-gray-50 rounded transition-colors"
+                        >
+                          <span className="text-2xl">▶️</span>
+                          <span className="font-medium text-sm">
+                            Video Tutorials
+                          </span>
+                        </a>
+                        <a
+                          href="#"
+                          className="flex items-center gap-3 px-2 py-2 text-[#0C2340] hover:bg-gray-50 rounded transition-colors"
+                        >
+                          <span className="text-2xl">📖</span>
+                          <span className="font-medium text-sm">Glossary</span>
+                        </a>
+                      </div>
+                    </div>
+                  </div>
+                )}
+              </div>
+
+              {/* Company Dropdown */}
+              <div
+                className="relative"
+                onMouseEnter={() => setCompanyDropdownOpen(true)}
+                onMouseLeave={() => setCompanyDropdownOpen(false)}
+              >
+                <button className="text-white/70 text-base font-medium hover:text-white transition-opacity flex items-center gap-1">
+                  Company
+                  <ChevronDownIcon className="w-4 h-4" />
+                </button>
+
+                {companyDropdownOpen && (
+                  <div className="absolute top-full left-0 mt-2 w-56 bg-white rounded-lg shadow-xl border border-gray-200 py-2 z-50">
+                    <a
+                      href="#"
+                      className="block px-4 py-3 text-[#0C2340] hover:bg-gray-50 transition-colors"
+                    >
+                      <div className="font-semibold text-sm">About Us</div>
+                      <div className="text-xs text-[#6B7280] mt-0.5">
+                        Our mission and values
+                      </div>
+                    </a>
+                    <a
+                      href="#"
+                      className="block px-4 py-3 text-[#0C2340] hover:bg-gray-50 transition-colors"
+                    >
+                      <div className="font-semibold text-sm">Careers</div>
+                      <div className="text-xs text-[#6B7280] mt-0.5">
+                        Join our team
+                      </div>
+                    </a>
+                    <a
+                      href="#"
+                      className="block px-4 py-3 text-[#0C2340] hover:bg-gray-50 transition-colors"
+                    >
+                      <div className="font-semibold text-sm">
+                        Technology & Product
+                      </div>
+                      <div className="text-xs text-[#6B7280] mt-0.5">
+                        Latest releases and innovations
+                      </div>
+                    </a>
+                    <a
+                      href="#"
+                      className="block px-4 py-3 text-[#0C2340] hover:bg-gray-50 transition-colors"
+                    >
+                      <div className="font-semibold text-sm">Newsroom</div>
+                      <div className="text-xs text-[#6B7280] mt-0.5">
+                        Press and announcements
+                      </div>
+                    </a>
+                    <a
+                      href="#"
+                      className="block px-4 py-3 text-[#0C2340] hover:bg-gray-50 transition-colors"
+                    >
+                      <div className="font-semibold text-sm">Contact</div>
+                      <div className="text-xs text-[#6B7280] mt-0.5">
+                        Get in touch
+                      </div>
+                    </a>
+                  </div>
+                )}
+              </div>
+
+              <button
+                onClick={() => alert('Sign In (demo)')}
                 className="text-white/70 text-base font-medium hover:text-white transition-opacity"
               >
-                Resources
-              </a>
-              <a
-                href="#"
-                className="text-white/70 text-base font-medium hover:text-white transition-opacity"
-              >
-                Company
-              </a>
-              <button className="text-white/70 text-base font-medium hover:text-white transition-opacity">
                 Sign In
               </button>
-              <button className="bg-[#6366F1] text-white px-6 py-3 rounded-lg font-semibold hover:bg-[#4F46E5] transition-all duration-200 hover:scale-[1.02] shadow-lg shadow-indigo-500/30">
+              <button
+                onClick={onGetStarted}
+                className="bg-[#6366F1] text-white px-6 py-3 rounded-lg font-semibold hover:bg-[#4F46E5] transition-all duration-200 hover:scale-[1.02] shadow-lg shadow-indigo-500/30"
+              >
                 Get Started
               </button>
             </div>
@@ -122,34 +755,75 @@ export function CalculatorsPage() {
           <div className="flex items-center gap-3 mb-4">
             <CalculatorIcon className="w-10 h-10 text-[#6366F1]" />
             <h1 className="text-4xl font-bold text-[#0C2340]">
-              Cost Calculators
+              Tools & Calculators
             </h1>
           </div>
           <p className="text-xl text-[#6B7280] max-w-3xl">
-            Estimate your logistics costs before you commit. Get transparent
-            pricing for fulfillment, receiving, storage, and returns.
+            Estimate your logistics costs and explore shipping tools before you
+            commit. Get transparent pricing and insights.
           </p>
         </div>
 
-        {/* Calculator Selection Grid */}
-        <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6 mb-12">
-          {calculators.map((calc) => (
-            <button
-              key={calc.id}
-              onClick={() => setActiveCalculator(calc.id)}
-              className={`p-6 rounded-xl border-2 text-left transition-all hover:shadow-lg ${activeCalculator === calc.id ? 'border-[#6366F1] bg-indigo-50 shadow-lg' : 'border-gray-200 bg-white hover:border-gray-300'}`}
-            >
-              <div
-                className={`w-12 h-12 ${calc.color} rounded-lg flex items-center justify-center mb-4`}
+        {/* TOOLS Section */}
+        <div className="mb-12">
+          <h2 className="text-2xl font-bold text-[#0C2340] mb-6">TOOLS</h2>
+          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+            {toolItems.map((tool) => (
+              <button
+                key={tool.id}
+                onClick={() =>
+                  tool.category === 'tool'
+                    ? alert(`Opening ${tool.title} (coming soon)`)
+                    : setActiveCalculator(tool.id)
+                }
+                className={`p-6 rounded-xl border-2 text-left transition-all hover:shadow-lg ${
+                  activeCalculator === tool.id
+                    ? 'border-[#6366F1] bg-indigo-50 shadow-lg'
+                    : 'border-gray-200 bg-white hover:border-gray-300'
+                }`}
               >
-                <calc.icon className="w-6 h-6 text-white" />
-              </div>
-              <h3 className="text-lg font-bold text-[#0C2340] mb-2">
-                {calc.title}
-              </h3>
-              <p className="text-sm text-[#6B7280]">{calc.description}</p>
-            </button>
-          ))}
+                <div
+                  className={`w-12 h-12 ${tool.color} rounded-lg flex items-center justify-center mb-4`}
+                >
+                  <tool.icon className="w-6 h-6 text-white" />
+                </div>
+                <h3 className="text-lg font-bold text-[#0C2340] mb-2">
+                  {tool.title}
+                </h3>
+                <p className="text-sm text-[#6B7280]">{tool.description}</p>
+              </button>
+            ))}
+          </div>
+        </div>
+
+        {/* CALCULATORS Section */}
+        <div className="mb-12">
+          <h2 className="text-2xl font-bold text-[#0C2340] mb-6">
+            CALCULATORS
+          </h2>
+          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+            {calculatorItems.map((calc) => (
+              <button
+                key={calc.id}
+                onClick={() => setActiveCalculator(calc.id)}
+                className={`p-6 rounded-xl border-2 text-left transition-all hover:shadow-lg ${
+                  activeCalculator === calc.id
+                    ? 'border-[#6366F1] bg-indigo-50 shadow-lg'
+                    : 'border-gray-200 bg-white hover:border-gray-300'
+                }`}
+              >
+                <div
+                  className={`w-12 h-12 ${calc.color} rounded-lg flex items-center justify-center mb-4`}
+                >
+                  <calc.icon className="w-6 h-6 text-white" />
+                </div>
+                <h3 className="text-lg font-bold text-[#0C2340] mb-2">
+                  {calc.title}
+                </h3>
+                <p className="text-sm text-[#6B7280]">{calc.description}</p>
+              </button>
+            ))}
+          </div>
         </div>
 
         {/* Active Calculator */}
